@@ -2,6 +2,7 @@ package org.aJohnson.java_web_final_project.controller;
 
 
 import org.aJohnson.java_web_final_project.model.Song;
+import org.aJohnson.java_web_final_project.model.SongDto;
 import org.aJohnson.java_web_final_project.service.SongService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +16,13 @@ public class SongController {
 
     private final SongService songService;
 
-    private SongController(SongService songServ){
+    public SongController(SongService songServ){
         songService = songServ;
     }
 
     @GetMapping
     public List<Song> getAllSongs(){
-        return songService.findAllSongs();
+        return songService.getAllSongs();
     }
 
     @GetMapping("/{id}")
@@ -30,13 +31,18 @@ public class SongController {
     }
 
     @PostMapping
-    public void saveNewSong(@RequestBody Song song){
-        songService.save(song);
+    public void saveNewSong(@RequestBody SongDto song){
+        songService.addSong(song);
     }
 
     @PutMapping
     public void updateSong(@RequestBody Song song){
-        songService.updateSong(song);
+        songService.putSong(song);
+    }
+
+    @PutMapping("/{id}")
+    public void putSong(@RequestBody SongDto song, @PathVariable Integer id){
+        songService.putSong(song,id);
     }
 
     @DeleteMapping("/{id}")

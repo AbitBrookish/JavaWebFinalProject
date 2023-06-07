@@ -2,6 +2,7 @@ package org.aJohnson.java_web_final_project.service;
 
 
 import org.aJohnson.java_web_final_project.model.Song;
+import org.aJohnson.java_web_final_project.model.SongDto;
 import org.aJohnson.java_web_final_project.repository.SongRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,24 @@ public class SongService {
 
     private final SongRepository songRepository;
 
-    private SongService(SongRepository songRepo){
+    public SongService(SongRepository songRepo){
         songRepository = songRepo;
     }
 
     //C.R.U.D. methods
 
     //Create
-    public void save(Song song){
-        songRepository.save(song);
+    public void addSong(SongDto newSong){
+        Song songToAdd = new Song();
+
+        songToAdd.setSongName(newSong.songName());
+        songToAdd.setSongLength(newSong.songLength());
+
+        songRepository.save(songToAdd);
     }
 
     //Read
-    public List<Song> findAllSongs(){
+    public List<Song> getAllSongs(){
         return songRepository.findAll();
     }
 
@@ -35,10 +41,19 @@ public class SongService {
 
 
     //Update
-    public void updateSong(Song song){
+    public void putSong(Song song) {
         Integer id = song.getId();
-        songRepository.deleteById(id);
-        songRepository.save(song);
+        Song foundSong = songRepository.findById(id).orElseThrow();
+        foundSong.setSongName(song.getSongName());
+        foundSong.setSongLength(song.getSongLength());
+        songRepository.save(foundSong);
+    }
+
+    public void putSong(SongDto song, Integer id){
+        Song foundSong = songRepository.findById(id).orElseThrow();
+        foundSong.setSongName(song.songName());
+        foundSong.setSongLength(song.songLength());
+        songRepository.save(foundSong);
     }
 
 
