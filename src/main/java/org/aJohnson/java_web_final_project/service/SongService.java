@@ -24,6 +24,7 @@ public class SongService {
     public void addSong(SongDto newSong){
         Song songToAdd = new Song();
 
+        songToAdd.setArtist(newSong.artist());
         songToAdd.setSongName(newSong.songName());
         songToAdd.setSongLength(newSong.songLength());
 
@@ -41,16 +42,10 @@ public class SongService {
 
 
     //Update
-    public void putSong(Song song) {
-        Integer id = song.getId();
-        Song foundSong = songRepository.findById(id).orElseThrow();
-        foundSong.setSongName(song.getSongName());
-        foundSong.setSongLength(song.getSongLength());
-        songRepository.save(foundSong);
-    }
 
     public void putSong(SongDto song, Integer id){
         Song foundSong = songRepository.findById(id).orElseThrow();
+        foundSong.setArtist(song.artist());
         foundSong.setSongName(song.songName());
         foundSong.setSongLength(song.songLength());
         songRepository.save(foundSong);

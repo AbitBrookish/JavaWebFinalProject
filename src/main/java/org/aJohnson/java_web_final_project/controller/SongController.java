@@ -1,6 +1,5 @@
 package org.aJohnson.java_web_final_project.controller;
 
-
 import org.aJohnson.java_web_final_project.model.Song;
 import org.aJohnson.java_web_final_project.model.SongDto;
 import org.aJohnson.java_web_final_project.service.SongService;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/")
+@RequestMapping("/api/song")
 public class SongController {
 
     private final SongService songService;
@@ -35,10 +34,6 @@ public class SongController {
         songService.addSong(song);
     }
 
-    @PutMapping
-    public void updateSong(@RequestBody Song song){
-        songService.putSong(song);
-    }
 
     @PutMapping("/{id}")
     public void putSong(@RequestBody SongDto song, @PathVariable Integer id){
